@@ -59,4 +59,25 @@ Hi! My name is [Your Full Name].
 <!-- Added Section -->
 ### Button
 
-<button type="button">Click Me!</button>
+<html>
+<head>
+<style>
+    .button {
+        cursor: pointer;
+    }
+</style>
+</head>
+
+<body>
+<button type="button" onclick="alert('hello world!')">
+Click Me!
+</button>
+
+
+
+<a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" type="button">
+    Click Me too!
+</a>
+
+</body>
+</html>

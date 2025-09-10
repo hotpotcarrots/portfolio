@@ -2,13 +2,16 @@
 layout: base
 title: Background with Object
 description: Use JavaScript to have an in motion background.
+# below are images for game
 sprite: images/platformer/sprites/rocketshipnobg.png
 background: images/platformer/backgrounds/spacebg2.jpg
 permalink: /background
 ---
 
+<!-- Game world !-->
 <canvas id="world"></canvas>
 
+<!--script for making game world-->
 <script>
   const canvas = document.getElementById("world");
   const ctx = canvas.getContext('2d');
@@ -17,6 +20,7 @@ permalink: /background
   backgroundImg.src = '{{page.background}}';
   spriteImg.src = '{{page.sprite}}';
 
+// loads images
   let imagesLoaded = 0;
   backgroundImg.onload = function() {
     imagesLoaded++;
@@ -30,6 +34,7 @@ permalink: /background
   function startGameWorld() {
     if (imagesLoaded < 2) return;
 
+// defines game object
     class GameObject {
       constructor(image, width, height, x = 0, y = 0, speedRatio = 0) {
         this.image = image;
@@ -46,6 +51,7 @@ permalink: /background
       }
     }
 
+//defines background as game object
     class Background extends GameObject {
       constructor(image, gameWorld) {
         // Fill entire canvas
@@ -60,6 +66,7 @@ permalink: /background
       }
     }
 
+//defines background as game object
     class Player extends GameObject {
       constructor(image, gameWorld) {
         const width = image.naturalWidth / 2;
@@ -70,12 +77,15 @@ permalink: /background
         this.baseY = y;
         this.frame = 0;
       }
+
+      // bounces player up and down
       update() {
         this.y = this.baseY + Math.sin(this.frame * 0.05) * 20;
         this.frame++;
       }
     }
 
+//defines gameworld
     class GameWorld {
       static gameSpeed = 5;
       constructor(backgroundImg, spriteImg) {

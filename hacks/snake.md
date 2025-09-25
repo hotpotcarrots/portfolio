@@ -1,7 +1,7 @@
 ---
 layout: base
 title: Snake Game
-permalink: /snake/
+permalink: /snake
 ---
 
 <style>
@@ -15,9 +15,11 @@ permalink: /snake/
 
     canvas{
         display: none;
-        border-style: solid;
-        border-width: 10px;
-        border-color: #FFFFFF;
+        border: 5px solid #FF0000;
+        box-shadow:
+            0 0 20px #FF0000,
+            0 0 40px #FF0000,
+            0 0 60px #FF0000;
     }
     canvas:focus{
         outline: none;
@@ -42,17 +44,15 @@ permalink: /snake/
         margin-right: 10px;
     }
 
-    #menu{
-        display: block;
-    }
+  #menu,#setting,#gameover{
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.18);
+    border-radius: 20px;
+    padding: 24px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 30px rgba(0,0,0,.25);
+}
 
-    #gameover{
-        display: none;
-    }
-
-    #setting{
-        display: none;
-    }
 
     #setting input{
         display:none;
@@ -71,6 +71,8 @@ permalink: /snake/
 <h2>Snake</h2>
 <div class="container">
     <p class="fs-4">Score: <span id="score_value">0</span></p>
+    <p class="fs-4">Lives: <span id="lives_value">3</span></p>
+
 
     <div class="container bg-secondary" style="text-align:center;">
         <!-- Main Menu -->
@@ -93,12 +95,16 @@ permalink: /snake/
             <a id="new_game2" class="link-alert">new game</a>
             <br>
             <p>Speed:
+                <input id="speed0" type="radio" name="speed" value="145"/>
+                <label for="speed0">Very Slow</label>
                 <input id="speed1" type="radio" name="speed" value="120" checked/>
                 <label for="speed1">Slow</label>
                 <input id="speed2" type="radio" name="speed" value="75"/>
                 <label for="speed2">Normal</label>
                 <input id="speed3" type="radio" name="speed" value="35"/>
                 <label for="speed3">Fast</label>
+                <input id="speed4" type="radio" name="speed" value="25"/>
+                <label for="speed4">Very Fast</label>
             </p>
             <p>Wall:
                 <input id="wallon" type="radio" name="wall" value="1" checked/>
@@ -136,6 +142,7 @@ permalink: /snake/
         const button_setting_menu1 = document.getElementById("setting_menu1");
         // Game Control
         const BLOCK = 10;   // size of block rendering
+        const GROW_BY = 3; // segments gained per food (change this number)
         let SCREEN = SCREEN_MENU;
         let snake;
         let snake_dir;
@@ -144,6 +151,8 @@ permalink: /snake/
         let food = {x: 0, y: 0};
         let score;
         let wall;
+        let lives;
+        const ele_lives = document.getElementById("lives_value");
         /* Display Control */
         /////////////////////////////////////////////////////////////
         // 0 for the game
@@ -183,7 +192,7 @@ permalink: /snake/
             button_setting_menu.onclick = function(){showScreen(SCREEN_SETTING);};
             button_setting_menu1.onclick = function(){showScreen(SCREEN_SETTING);};
             // speed
-            setSnakeSpeed(150);
+            setSnakeSpeed(35);
             for(let i = 0; i < speed_setting.length; i++){
                 speed_setting[i].addEventListener("click", function(){
                     for(let i = 0; i < speed_setting.length; i++){
@@ -230,7 +239,7 @@ permalink: /snake/
             if(wall === 1){
                 // Wall on, Game over test
                 if (snake[0].x < 0 || snake[0].x === canvas.width / BLOCK || snake[0].y < 0 || snake[0].y === canvas.height / BLOCK){
-                    showScreen(SCREEN_GAME_OVER);
+                    loseLife();
                     return;
                 }
             }else{
@@ -254,20 +263,21 @@ permalink: /snake/
             for(let i = 1; i < snake.length; i++){
                 // Game over test
                 if (snake[0].x === snake[i].x && snake[0].y === snake[i].y){
-                    showScreen(SCREEN_GAME_OVER);
+                    loseLife();
                     return;
                 }
             }
             // Snake eats food checker
             if(checkBlock(snake[0].x, snake[0].y, food.x, food.y)){
-                snake[snake.length] = {x: snake[0].x, y: snake[0].y};
+                for (let i = 0; i < GROW_BY; i++) { snake.push({x: snake[0].x, y: snake[0].y}); }
+
                 altScore(++score);
                 addFood();
                 activeDot(food.x, food.y);
             }
             // Repaint canvas
             ctx.beginPath();
-            ctx.fillStyle = "royalblue";
+            ctx.fillStyle = "green";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             // Paint snake
             for(let i = 0; i < snake.length; i++){
@@ -290,6 +300,8 @@ permalink: /snake/
             score = 0;
             altScore(score);
             // initial snake
+            lives = 3;
+            altLives(lives);
             snake = [];
             snake.push({x: 0, y: 15});
             snake_next_dir = 1;
@@ -307,18 +319,22 @@ permalink: /snake/
             // test key and switch direction
             switch(key) {
                 case 37:    // left arrow
+                case 65:   // A key
                     if (snake_dir !== 1)    // not right
                         snake_next_dir = 3; // then switch left
                     break;
                 case 38:    // up arrow
+                case 87:    
                     if (snake_dir !== 2)    // not down
                         snake_next_dir = 0; // then switch up
                     break;
                 case 39:    // right arrow
+                case 68:    
                     if (snake_dir !== 3)    // not left
                         snake_next_dir = 1; // then switch right
                     break;
                 case 40:    // down arrow
+                case 83:    
                     if (snake_dir !== 0)    // not up
                         snake_next_dir = 2; // then switch down
                     break;
@@ -327,7 +343,7 @@ permalink: /snake/
         /* Dot for Food or Snake part */
         /////////////////////////////////////////////////////////////
         let activeDot = function(x, y){
-            ctx.fillStyle = "#FFFFFF";
+            ctx.fillStyle = "#000000ff";
             ctx.fillRect(x * BLOCK, y * BLOCK, BLOCK, BLOCK);
         }
         /* Random food placement */
@@ -351,6 +367,11 @@ permalink: /snake/
         let altScore = function(score_val){
             ele_score.innerHTML = String(score_val);
         }
+
+        let altLives = function(lives_val){
+            ele_lives.innerHTML = String(lives_val);
+        }
+
         /////////////////////////////////////////////////////////////
         // Change the snake speed...
         // 150 = slow
@@ -365,5 +386,21 @@ permalink: /snake/
             if(wall === 0){screen_snake.style.borderColor = "#606060";}
             if(wall === 1){screen_snake.style.borderColor = "#FFFFFF";}
         }
+        let loseLife = function(){
+            lives--;
+            altLives(lives);
+
+            if(lives > 0){
+            // reset snake to starting position
+            snake = [];
+            snake.push({x: 0, y: 15});
+            snake_next_dir = 1;
+            addFood();
+            mainLoop();
+        } else {
+            showScreen(SCREEN_GAME_OVER);
+        }
+}
+
     })();
 </script>

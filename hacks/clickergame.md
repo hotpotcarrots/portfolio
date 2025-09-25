@@ -1,7 +1,7 @@
 ---
 layout: base
 title: Clicker Game
-permalink: /clicker/
+permalink: /clicker
 ---
 
 <html lang="en">

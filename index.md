@@ -56,7 +56,6 @@ Hi! My name is Perry Say.
 <p style="color: #2A7DB1;">Open Coding Society: <a href="https://opencodingsociety.com" style="color: #2A7DB1; text-decoration: underline;">Socials</a></p>
 
 ### Clicker Game: 
-<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">

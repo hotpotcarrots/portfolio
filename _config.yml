@@ -21,3 +21,9 @@ header_pages:
   - navigation/about.md
   - navigation/logintoolkit.md
 
+exclude:
+  - flask/
+  - flask/**/*
+  - venv/
+  - README.md
+

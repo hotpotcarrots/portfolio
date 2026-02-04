@@ -2,8 +2,8 @@ title: Open Coding
 description: "Class of 2026"
 owner_name: John Mortensen
 github_username: jm1021 
-github_repo: "student" 
-baseurl: "/student" 
+github_repo: "portfolio" 
+baseurl: "/portfolio" 
 future: true
 remote_theme: jekyll/minima
 minima:
@@ -20,3 +20,10 @@ header_pages:
   - navigation/search.md
   - navigation/about.md
   - navigation/logintoolkit.md
+
+exclude:
+  - flask/
+  - flask/**/*
+  - venv/
+  - README.md
+

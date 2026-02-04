@@ -1,19 +1,23 @@
 ---
 layout: base
+<<<<<<< HEAD
 title: I'm Perry Say!
+=======
+title: John Tab 
+>>>>>>> c6cc15a045302cc31f027d9b7e898547bb878987
 hide: true
 ---
 
 ### Me and Team
 
-Hi! My name is [Your Full Name].
+Hi! My name is Perry Say.
 
 | Role         | Name     | Repo Location                       | Stream                | Repo Name |
 |--------------|----------|-------------------------------------|-----------------------|-----------|
-| Scrum Master | John     | github.com/jm1021/student           | upstream (OCS fork)   | student   |
-| Scrummer     | Torin    | github.com/torin/student            | downstream (fork)     | student   |
-| Scrummer     | Avantika | github.com/avantika/student         | downstream (fork)     | student   |
-| Scrummer     | Aadit    | github.com/aaadit/student           | downstream (fork)     | student   |
+| Scrum Master | Aneesh     | https://github.com/whitelunarium/Aneesh_2026student           | upstream (OCS fork)   | student   |
+| Scrummer     | Tanay    | https://github.com/tp254/studentstudent            | downstream (fork)     | student   |
+| Scrummer     | Ethan | https://github.com/EthanP2010/studentstudent         | downstream (fork)     | student   |
+| Scrummer     | Perry    | https://github.com/hotpotcarrots/studentstudent           | downstream (fork)     | student   |
 
 
 ## Links to Learning
